@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Oferty kulturalne
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('cultural_offers') }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <form id="offers_categories_form" method="get" action="/oferty-kulturalne-30">
+            <label for="offers_categories">Kategoria</label>
+            <select id="offers_categories" name="kategoria">
+                <option value="wszystkie">WSZYSTKIE</option>
+                {% for category in offers_categories %}
+                    <option value="{{ category.alias }}"{% if category.alias is same as(selected_category_alias) %} selected{% endif %}>{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </form>
+        {% if offers.items is defined %}
+            {% for offer in offers.items %}
+                <div class="movie">
+                    {% if offer.mainImage is defined %}
+                    <img class="image" src="{% if offer.mainImage.tile is defined %}{{ offer.mainImage.tile }}{% endif %}" alt="{% if offer.mainImage.description is defined %}{{ offer.mainImage.description }}{% endif %}">
+                    {% endif %}
+                    <h2 class="title"><b>{% if offer.title is defined %}{{ offer.title }}{% endif %}</b></h2>
+                    <span class="description">{% if offer.longDescription is defined %}{{ offer.longDescription|raw }}{% endif %}</span>
+                    <br class="br">
+                    <ol>
+                        {% if offer.events is defined %}
+                            {% for event in offer.events %}
+                                <hr class="hr">
+                                <li>
+                                    <h5><b>MIEJSCE:</b> {% if event.placeName is defined %}{{ event.placeName }}{% endif %}, <b>DATA:</b> {% if event.startDate is defined %}{{ event.startDate|date("d.m.Y H:i") }}{% endif %}</h5>
+                                    <h5><b>ADRES:</b> {% if event.address.street is defined %}{{ event.address.street }}{% endif %}, {% if event.address.city is defined %}{{ event.address.city }}{% endif %}</h5>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+                    </ol>
+                </div>
+                <hr class="hr">
+            {% endfor %}
+        {% endif %}
+    </div>
+    {% block cultural_offers_scripts %}
+        {{ encore_entry_script_tags('cultural_offers') }}
+    {% endblock %}
+{% endblock %}

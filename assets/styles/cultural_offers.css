@@ -1,0 +1,26 @@
+.movie {
+    background: lightgray;
+    padding: 10px;
+    border: 1px solid darkgray;
+    border-radius: 10px;
+}
+
+.image {
+    margin-right: 10px;
+    display: block;
+    float: left;
+    border: 1px solid darkgray;
+    border-radius: 10px;
+}
+
+.description {
+    font-size: 1.25em;
+}
+
+.hr {
+    border-color: darkgrey;
+}
+
+.br {
+    clear: left;
+}
